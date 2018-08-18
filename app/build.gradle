@@ -1,0 +1,79 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        debug {
+            storeFile file('/home/songpengfei/.android/debug.keystore')
+        }
+    }
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.cleanmaster.mguard"
+        minSdkVersion 15
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        release {
+            storeFile file('/home/songpengfei/AndroidStudioProjects/MyApplication/cleanmaster.key')
+            storePassword "kingsoft7777"
+            keyAlias "CMDev"
+            keyPassword "kingsoft7777"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+}
+
+Map<String,Long> tasks = new HashMap<>()
+gradle.taskGraph.beforeTask(new Action<Task>() {
+    @Override
+    void execute(Task task) {
+        println(task.class.getCanonicalName())
+        println(task.class.package.name)
+        tasks.put(task.name,System.currentTimeMillis())
+    }
+})
+
+gradle.taskGraph.afterTask(new Action<Task>() {
+    @Override
+    void execute(Task task) {
+        if (tasks.containsKey(task.name)){
+            long time = System.currentTimeMillis() - tasks.get(task.name)
+            println("task "+task.name+",spend time : "+time)
+        }
+    }
+})
+
+
+
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.0.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.facebook.android:facebook-android-sdk:4.25.0'
+    implementation 'com.android.support:recyclerview-v7:27.0.1'
+}
+

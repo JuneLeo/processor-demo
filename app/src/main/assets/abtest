@@ -1,0 +1,16 @@
+[
+  {
+    "page":"ABTestActivity",
+    "key":"key1"
+    "action":"action"
+    "values":[1,2,3],
+    "keyName":"我去"
+  },
+  {
+        "page":"ABTestActivity",
+        "key":"key1"
+        "action":"action"
+        "values":[1,2,3],
+        "keyName":"我去"
+  }
+]
